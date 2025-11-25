@@ -560,3 +560,310 @@ footer {
     height: 80px;
   }
 }
+
+/* New Styles for Dashboard and Pricing */
+
+/* Disclaimer Card */
+.disclaimer-card {
+  background: rgba(255, 107, 53, 0.1);
+  border-color: rgba(255, 107, 53, 0.3);
+}
+
+.disclaimer-card h2 {
+  color: var(--sun-color);
+}
+
+.inline-link {
+  color: var(--sun-color);
+  text-decoration: none;
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+.inline-link:hover {
+  color: var(--sky-color);
+  text-decoration: underline;
+}
+
+/* Button Group */
+.button-group {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.button-group .btn {
+  flex: 1;
+  min-width: 200px;
+}
+
+/* Dashboard Styles */
+.dashboard-info {
+  margin: 25px 0;
+}
+
+.info-group {
+  margin-bottom: 20px;
+}
+
+.info-group label {
+  display: block;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.code-display {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px;
+  background: rgba(30, 30, 30, 0.7);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+
+.code-display span {
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', monospace;
+  color: var(--accent);
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+  flex-grow: 1;
+  word-break: break-all;
+}
+
+.highlight {
+  color: var(--sun-color);
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.save-notice {
+  background: rgba(255, 107, 53, 0.1);
+  border: 1px solid rgba(255, 107, 53, 0.3);
+  padding: 15px;
+  border-radius: 8px;
+  margin: 20px 0;
+  color: var(--text-primary);
+}
+
+.dashboard-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 25px;
+  flex-wrap: wrap;
+}
+
+.dashboard-actions .btn {
+  flex: 1;
+}
+
+.generated-invites {
+  margin-top: 25px;
+  padding-top: 25px;
+  border-top: 1px solid var(--border-color);
+}
+
+.generated-invites h3 {
+  color: var(--text-primary);
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+}
+
+.generated-invites ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.generated-invites li {
+  padding: 12px;
+  background: rgba(30, 30, 30, 0.6);
+  border-radius: 8px;
+  margin-bottom: 10px;
+  border: 1px solid var(--border-color);
+}
+
+.invite-code-item {
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', monospace;
+  color: var(--accent);
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+}
+
+/* Pricing Page Styles */
+.back-home {
+  display: inline-block;
+  margin-top: 15px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: var(--transition);
+  font-size: 0.95rem;
+}
+
+.back-home:hover {
+  color: var(--sun-color);
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+  margin: 30px 0;
+}
+
+.pricing-card {
+  background: rgba(17, 17, 17, 0.75);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 35px 25px;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.pricing-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+  opacity: 0.5;
+  transition: var(--transition);
+}
+
+.pricing-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(255, 107, 53, 0.5);
+}
+
+.pricing-card:hover::before {
+  opacity: 1;
+}
+
+.pricing-card.popular,
+.pricing-card.lifetime {
+  border-color: rgba(255, 107, 53, 0.5);
+  box-shadow: 0 0 30px rgba(255, 107, 53, 0.2);
+}
+
+.popular-badge {
+  position: absolute;
+  top: 15px;
+  right: -30px;
+  background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+  color: white;
+  padding: 5px 40px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  transform: rotate(45deg);
+}
+
+.lifetime-badge {
+  background: linear-gradient(90deg, #FFD166, #FF6B35);
+}
+
+.pricing-header {
+  text-align: center;
+  margin-bottom: 25px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.pricing-header h3 {
+  color: var(--text-primary);
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+}
+
+.price {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 5px;
+}
+
+.currency {
+  font-size: 1.5rem;
+  color: var(--sun-color);
+  font-weight: 600;
+  margin-top: 5px;
+}
+
+.amount {
+  font-size: 3rem;
+  color: var(--text-primary);
+  font-weight: 800;
+  line-height: 1;
+}
+
+.features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 25px 0;
+}
+
+.features li {
+  padding: 12px 0;
+  color: var(--text-secondary);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.features li:last-child {
+  border-bottom: none;
+}
+
+/* Discord Card */
+.discord-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.license-reminder {
+  margin-top: 20px;
+  padding: 15px;
+  background: rgba(255, 107, 53, 0.1);
+  border: 1px solid rgba(255, 107, 53, 0.3);
+  border-radius: 8px;
+  text-align: center;
+}
+
+.license-reminder p {
+  margin: 0;
+  color: var(--text-primary);
+}
+
+/* Mobile Responsive Updates */
+@media (max-width: 768px) {
+  .button-group {
+    flex-direction: column;
+  }
+  
+  .button-group .btn {
+    min-width: 100%;
+  }
+  
+  .dashboard-actions {
+    flex-direction: column;
+  }
+  
+  .pricing-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .popular-badge {
+    font-size: 0.65rem;
+    padding: 4px 35px;
+  }
+  
+  .code-display {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

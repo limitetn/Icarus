@@ -15,6 +15,7 @@ app.use(express.static('public'));
 app.use('/download', express.static('download'));
 
 // In-memory data stores (in production, use a database)
+let users = []; // New: store user accounts
 let invites = [];
 let keys = [];
 let downloads = [];
@@ -35,7 +36,6 @@ const generateDownloadKey = () => {
 app.post('/api/admin/generate-invite', (req, res) => {
   const { adminKey } = req.body;
   
-  // Simple admin check (in production, use proper auth)
   if (adminKey !== process.env.ADMIN_KEY) {
     return res.status(403).json({ error: 'Unauthorized' });
   }
@@ -44,6 +44,7 @@ app.post('/api/admin/generate-invite', (req, res) => {
   const newInvite = {
     code: inviteCode,
     used: false,
+    createdBy: 'admin',
     createdAt: new Date()
   };
   
@@ -56,7 +57,6 @@ app.post('/api/admin/generate-invite', (req, res) => {
 app.post('/api/register', (req, res) => {
   const { inviteCode } = req.body;
   
-  // Check if invite code is valid
   const inviteIndex = invites.findIndex(invite => 
     invite.code === inviteCode && !invite.used
   );
@@ -65,11 +65,21 @@ app.post('/api/register', (req, res) => {
     return res.status(400).json({ error: 'Invalid or used invite code' });
   }
   
-  // Mark invite as used
   invites[inviteIndex].used = true;
   
-  // Generate download key
   const downloadKey = generateDownloadKey();
+  
+  // Create user account
+  const newUser = {
+    inviteCode: inviteCode,
+    downloadKey: downloadKey,
+    invitesRemaining: 5,
+    invitesCreated: [],
+    createdAt: new Date()
+  };
+  
+  users.push(newUser);
+  
   const newKey = {
     key: downloadKey,
     used: false,
@@ -78,30 +88,76 @@ app.post('/api/register', (req, res) => {
   
   keys.push(newKey);
   
-  res.json({ downloadKey });
+  res.json({ downloadKey, inviteCode });
+});
+
+// Login with invite code or download key
+app.post('/api/login', (req, res) => {
+  const { code } = req.body;
+  
+  const user = users.find(u => u.inviteCode === code || u.downloadKey === code);
+  
+  if (!user) {
+    return res.status(400).json({ error: 'Invalid code' });
+  }
+  
+  res.json({
+    inviteCode: user.inviteCode,
+    downloadKey: user.downloadKey,
+    invitesRemaining: user.invitesRemaining,
+    invitesCreated: user.invitesCreated
+  });
+});
+
+// User generates invite (limited to 5)
+app.post('/api/user/generate-invite', (req, res) => {
+  const { userCode } = req.body;
+  
+  const user = users.find(u => u.inviteCode === userCode || u.downloadKey === userCode);
+  
+  if (!user) {
+    return res.status(400).json({ error: 'Invalid user code' });
+  }
+  
+  if (user.invitesRemaining <= 0) {
+    return res.status(400).json({ error: 'No invites remaining. You have reached your limit of 5 invites.' });
+  }
+  
+  const inviteCode = generateInviteCode();
+  const newInvite = {
+    code: inviteCode,
+    used: false,
+    createdBy: user.downloadKey,
+    createdAt: new Date()
+  };
+  
+  invites.push(newInvite);
+  user.invitesRemaining--;
+  user.invitesCreated.push(inviteCode);
+  
+  res.json({ 
+    inviteCode, 
+    invitesRemaining: user.invitesRemaining 
+  });
 });
 
 // Validate key and get download link
 app.post('/api/download', (req, res) => {
   const { key } = req.body;
   
-  // Check if key is valid
   const keyIndex = keys.findIndex(k => k.key === key && !k.used);
   
   if (keyIndex === -1) {
     return res.status(400).json({ error: 'Invalid or used key' });
   }
   
-  // Mark key as used
   keys[keyIndex].used = true;
   
-  // Log download
   downloads.push({
     key: key,
     timestamp: new Date()
   });
   
-  // Return download link for the real file
   res.json({ 
     downloadLink: '/download/Icarus.exe',
     fileName: 'Icarus.exe'
@@ -121,7 +177,8 @@ app.get('/api/admin/stats', (req, res) => {
     usedInvites: invites.filter(i => i.used).length,
     totalKeys: keys.length,
     usedKeys: keys.filter(k => k.used).length,
-    totalDownloads: downloads.length
+    totalDownloads: downloads.length,
+    totalUsers: users.length
   });
 });
 
@@ -132,6 +189,10 @@ app.get('/', (req, res) => {
 
 app.get('/admin', (req, res) => {
   res.sendFile(__dirname + '/public/admin.html');
+});
+
+app.get('/pricing', (req, res) => {
+  res.sendFile(__dirname + '/public/pricing.html');
 });
 
 app.listen(PORT, () => {
