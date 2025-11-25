@@ -76,3 +76,4 @@ To access admin functions, you'll need the admin key which is set in the `.env` 
 ## Support
 
 For issues or feature requests, please open an issue on the repository."# Icarus" 
+"# Icarus" 
