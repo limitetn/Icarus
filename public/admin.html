@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Icarus Admin Panel</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <div class="logo">
+                    <img src="logo.png" alt="Icarus Logo" />
+                </div>
+                <h1 class="title">ICARUS ADMIN</h1>
+            </div>
+            <p class="subtitle">System Management Panel</p>
+        </header>
+
+        <main>
+            <div class="card">
+                <h2>Generate New Invite</h2>
+                <form id="generate-invite-form">
+                    <div class="input-group">
+                        <label for="admin-key">Admin Key</label>
+                        <input type="password" id="admin-key" placeholder="Enter admin key" required>
+                    </div>
+                    <button type="submit" class="btn primary full-width">Generate Invite Code</button>
+                </form>
+                <div id="invite-result" class="result-container hidden">
+                    <p>New Invite Code:</p>
+                    <div class="key-container">
+                        <span id="invite-code" class="key"></span>
+                        <button id="copy-invite-btn" class="btn small">Copy</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>System Statistics</h2>
+                <form id="stats-form">
+                    <div class="input-group">
+                        <label for="stats-admin-key">Admin Key</label>
+                        <input type="password" id="stats-admin-key" placeholder="Enter admin key" required>
+                    </div>
+                    <button type="submit" class="btn primary full-width">Load Statistics</button>
+                </form>
+                <div id="stats-result" class="stats-container hidden">
+                    <div class="stat-item">
+                        <span class="stat-label">Total Invites:</span>
+                        <span id="total-invites" class="stat-value">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Used Invites:</span>
+                        <span id="used-invites" class="stat-value">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Total Keys:</span>
+                        <span id="total-keys" class="stat-value">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Used Keys:</span>
+                        <span id="used-keys" class="stat-value">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Total Downloads:</span>
+                        <span id="total-downloads" class="stat-value">0</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2023 Icarus. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const generateInviteForm = document.getElementById('generate-invite-form');
+            const inviteResult = document.getElementById('invite-result');
+            const inviteCodeSpan = document.getElementById('invite-code');
+            const copyInviteBtn = document.getElementById('copy-invite-btn');
+            
+            const statsForm = document.getElementById('stats-form');
+            const statsResult = document.getElementById('stats-result');
+            const totalInvites = document.getElementById('total-invites');
+            const usedInvites = document.getElementById('used-invites');
+            const totalKeys = document.getElementById('total-keys');
+            const usedKeys = document.getElementById('used-keys');
+            const totalDownloads = document.getElementById('total-downloads');
+            
+
+            
+            // Event Listeners
+            generateInviteForm.addEventListener('submit', handleGenerateInvite);
+            copyInviteBtn.addEventListener('click', copyInviteToClipboard);
+            statsForm.addEventListener('submit', handleLoadStats);
+            
+            // Functions
+            async function handleGenerateInvite(e) {
+                e.preventDefault();
+                
+                const adminKey = document.getElementById('admin-key').value.trim();
+                
+                if (!adminKey) {
+                    alert('Please enter the admin key');
+                    return;
+                }
+                
+                try {
+                    const response = await fetch('/api/admin/generate-invite', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ adminKey })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (response.ok) {
+                        inviteCodeSpan.textContent = data.inviteCode;
+                        inviteResult.classList.remove('hidden');
+                    } else {
+                        alert(data.error || 'Unauthorized');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('An error occurred. Please try again.');
+                }
+            }
+            
+            async function handleLoadStats(e) {
+                e.preventDefault();
+                
+                const adminKey = document.getElementById('stats-admin-key').value.trim();
+                
+                if (!adminKey) {
+                    alert('Please enter the admin key');
+                    return;
+                }
+                
+                try {
+                    const response = await fetch(`/api/admin/stats?adminKey=${encodeURIComponent(adminKey)}`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (response.ok) {
+                        totalInvites.textContent = data.totalInvites;
+                        usedInvites.textContent = data.usedInvites;
+                        totalKeys.textContent = data.totalKeys;
+                        usedKeys.textContent = data.usedKeys;
+                        totalDownloads.textContent = data.totalDownloads;
+                        statsResult.classList.remove('hidden');
+                    } else {
+                        alert(data.error || 'Unauthorized');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('An error occurred. Please try again.');
+                }
+            }
+            
+            function copyInviteToClipboard() {
+                const code = inviteCodeSpan.textContent;
+                navigator.clipboard.writeText(code).then(() => {
+                    // Show feedback
+                    const originalText = copyInviteBtn.textContent;
+                    copyInviteBtn.textContent = 'Copied!';
+                    setTimeout(() => {
+                        copyInviteBtn.textContent = originalText;
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Failed to copy: ', err);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
