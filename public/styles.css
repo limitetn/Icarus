@@ -1,0 +1,538 @@
+/* styles.css */
+
+:root {
+  --sun-color: #FF6B35;
+  --sky-color: #4ECDC4;
+  --dark-bg: #0a0a0a;
+  --card-bg: #111111;
+  --text-primary: #ffffff;
+  --text-secondary: #b3b3b3;
+  --accent: #FFD166;
+  --border-color: #2a2a2a;
+  --gradient-start: #FF6B35;
+  --gradient-end: #4ECDC4;
+  
+  --font-primary: 'Inter', 'Segoe UI', sans-serif;
+  --font-secondary: 'Inter', 'Segoe UI', sans-serif;
+  
+  --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  --border-radius: 16px;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-secondary);
+  background-color: var(--dark-bg);
+  color: var(--text-primary);
+  min-height: 100vh;
+  padding: 0;
+  margin: 0;
+  background-image: url('background.gif');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Overlay for better text readability */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(10, 10, 10, 0.88);
+  z-index: -1;
+}
+
+/* Subtle pattern overlay */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(255, 107, 53, 0.05) 0%, transparent 20%),
+    radial-gradient(circle at 90% 80%, rgba(78, 205, 196, 0.05) 0%, transparent 20%);
+  z-index: -2;
+}
+
+/* Welcome Animation */
+.welcome-animation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #0a0a0a, #1a1a2e);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  transition: opacity 1s ease, visibility 1s ease;
+}
+
+.welcome-animation.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.icarus-welcome {
+  width: 150px;
+  height: 150px;
+  position: relative;
+  margin-bottom: 30px;
+  animation: entrance 1s ease-out;
+}
+
+.icarus-welcome img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  animation: float 4s ease-in-out infinite;
+}
+
+.sun-core {
+  fill: var(--sun-color);
+  filter: drop-shadow(0 0 15px rgba(255, 107, 53, 0.8));
+  animation: pulse 3s infinite alternate;
+}
+
+.left-wing, .right-wing {
+  fill: none;
+  stroke: var(--text-primary);
+  stroke-width: 2;
+  stroke-dasharray: 8, 4;
+  animation: wings-flap 3s infinite ease-in-out;
+}
+
+.left-wing {
+  animation-delay: 0.5s;
+}
+
+.right-wing {
+  animation-delay: 1s;
+}
+
+@keyframes wings-flap {
+  0%, 100% {
+    stroke-dashoffset: 0;
+    transform: translateY(0);
+  }
+  50% {
+    stroke-dashoffset: 12;
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-20px) rotate(5deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+}
+
+@keyframes entrance {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.welcome-text {
+  font-family: var(--font-primary);
+  font-size: 2.5rem;
+  font-weight: 700;
+  background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.5px;
+  text-align: center;
+  margin-top: 20px;
+  animation: glow 2s infinite alternate, text-entrance 1s ease-out;
+  opacity: 0;
+  animation-fill-mode: forwards;
+  animation-delay: 0.5s;
+}
+
+@keyframes glow {
+  from {
+    text-shadow: 0 0 10px rgba(255, 107, 53, 0.5);
+  }
+  to {
+    text-shadow: 0 0 20px rgba(255, 107, 53, 0.8), 0 0 30px rgba(255, 107, 53, 0.6);
+  }
+}
+
+@keyframes text-entrance {
+  to {
+    opacity: 1;
+  }
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Header with Icarus sun theme */
+header {
+  text-align: center;
+  padding: 60px 0 40px;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.logo {
+  width: 80px;
+  height: 80px;
+  position: relative;
+}
+
+.logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.sun-core {
+  fill: var(--sun-color);
+  filter: drop-shadow(0 0 10px rgba(255, 107, 53, 0.7));
+}
+
+.wings {
+  fill: none;
+  stroke: var(--text-primary);
+  stroke-width: 2;
+  stroke-dasharray: 5, 5;
+  animation: wings-flap 4s infinite ease-in-out;
+}
+
+.title {
+  font-family: var(--font-primary);
+  font-size: 2.8rem;
+  font-weight: 800;
+  background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -1px;
+  margin: 0;
+  line-height: 1.1;
+}
+
+.subtitle {
+  font-family: var(--font-secondary);
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  margin-top: 15px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+/* Card design inspired by EqtyLab */
+.card {
+  background: rgba(17, 17, 17, 0.7);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 40px;
+  margin-bottom: 30px;
+  transition: var(--transition);
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+  opacity: 0.7;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+  border-color: rgba(255, 107, 53, 0.3);
+}
+
+.card h2 {
+  font-family: var(--font-primary);
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.card p {
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 25px;
+  font-size: 1.05rem;
+  font-weight: 400;
+}
+
+/* Input groups */
+.input-group {
+  margin-bottom: 25px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 500;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 16px 20px;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  background: rgba(30, 30, 30, 0.6);
+  color: var(--text-primary);
+  font-size: 1rem;
+  transition: var(--transition);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: var(--gradient-start);
+  box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.2);
+}
+
+/* Buttons inspired by EqtyLab */
+.btn {
+  padding: 16px 32px;
+  border-radius: 12px;
+  border: none;
+  font-family: var(--font-secondary);
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: 0.5s;
+}
+
+.btn:hover::after {
+  left: 100%;
+}
+
+.btn.primary {
+  background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+  color: white;
+  box-shadow: 0 4px 20px rgba(255, 107, 53, 0.3);
+}
+
+.btn.primary:hover {
+  background: linear-gradient(90deg, #e55a2b, #3db8ab);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
+}
+
+.btn.secondary {
+  background: rgba(30, 30, 30, 0.6);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.btn.secondary:hover {
+  background: rgba(40, 40, 40, 0.6);
+  border-color: rgba(255, 107, 53, 0.3);
+}
+
+.btn.small {
+  padding: 12px 20px;
+  font-size: 0.9rem;
+}
+
+.btn.full-width {
+  width: 100%;
+  padding: 16px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+/* Key display */
+.key-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin: 30px 0;
+  padding: 25px;
+  background: rgba(30, 30, 30, 0.6);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.key {
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', monospace;
+  font-size: 1.3rem;
+  letter-spacing: 2px;
+  color: var(--accent);
+  flex-grow: 1;
+  word-break: break-all;
+  text-align: center;
+  font-weight: 500;
+}
+
+/* Stats container */
+.stats-container {
+  margin-top: 30px;
+  padding: 25px;
+  background: rgba(30, 30, 30, 0.6);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.stat-item:last-child {
+  border-bottom: none;
+}
+
+.stat-label {
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+.stat-value {
+  font-family: var(--font-primary);
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.hidden {
+  display: none;
+}
+
+footer {
+  text-align: center;
+  padding: 40px 0 30px;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  border-top: 1px solid var(--border-color);
+  margin-top: 30px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+  
+  .title {
+    font-size: 2.2rem;
+  }
+  
+  .card {
+    padding: 25px;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+  }
+  
+  .key-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .key {
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+  }
+  
+  .btn {
+    padding: 14px 24px;
+  }
+}
