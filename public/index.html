@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Icarus - Invite Only Access</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Welcome Animation -->
+    <div class="welcome-animation" id="welcome-animation">
+        <div class="icarus-welcome">
+            <img src="logo.png" alt="Icarus Logo" />
+        </div>
+        <div class="welcome-text">ICARUS</div>
+    </div>
+
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <div class="logo">
+                    <img src="logo.png" alt="Icarus Logo" />
+                </div>
+                <h1 class="title">ICARUS</h1>
+            </div>
+            <p class="subtitle">Soar too close to the sun</p>
+        </header>
+
+        <main>
+            <div class="card" id="welcome-card">
+                <h2>Welcome to Icarus</h2>
+                <p>To access our exclusive software, you'll need an invitation code.</p>
+                <button id="enter-code-btn" class="btn primary">Enter Invitation Code</button>
+            </div>
+
+            <div class="card hidden" id="invite-form">
+                <h2>Enter Invitation Code</h2>
+                <form id="invite-code-form">
+                    <div class="input-group">
+                        <label for="invite-code">Invitation Code</label>
+                        <input type="text" id="invite-code" placeholder="Enter your code" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" id="back-btn" class="btn secondary">Back</button>
+                        <button type="submit" class="btn primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card hidden" id="key-display">
+                <h2>Your Download Key</h2>
+                <p>Congratulations! Here is your download key:</p>
+                <div class="key-container">
+                    <span id="download-key" class="key"></span>
+                    <button id="copy-key-btn" class="btn small">Copy</button>
+                </div>
+                <button id="download-btn" class="btn primary full-width">Proceed to Download</button>
+            </div>
+
+            <div class="card hidden" id="download-form">
+                <h2>Download Icarus</h2>
+                <p>Enter your download key to access the file:</p>
+                <form id="download-key-form">
+                    <div class="input-group">
+                        <label for="download-key-input">Download Key</label>
+                        <input type="text" id="download-key-input" placeholder="Enter your key" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn primary full-width">Download</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card hidden" id="download-ready">
+                <h2>Ready to Download</h2>
+                <p>Your download will begin shortly. If it doesn't start automatically, click the button below:</p>
+                <a id="download-link" class="btn primary full-width" download>Download Icarus.exe</a>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2023 Icarus. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
