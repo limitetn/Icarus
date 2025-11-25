@@ -1,5 +1,6 @@
+
 const express = require('express');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
 require('dotenv').config();
@@ -136,4 +137,5 @@ app.get('/admin', (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`Icarus server running on port ${PORT}`);
+
 });
